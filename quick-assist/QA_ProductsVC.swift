@@ -351,6 +351,8 @@ class QA_ProductsVC: UIViewController {
     @IBAction func productSelectDoneOnClick(_ sender: Any) {
         
     }
+    
+    
 }
 
 extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, BrandCellDelegate, CategoryCellDelegate {
@@ -398,7 +400,9 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
             
             if brandsElapsed {
                 
-                cell.picIV.sd_setImage(with: URL(string: brandsArr[indexPath.row].image), placeholderImage: UIImage(named: "box_icon"))
+                
+                cell.picIV.sd_setImage(with: URL(string: brandsArr[indexPath.row].image),
+                                       placeholderImage: UIImage.textToImage(drawText: brandsArr[indexPath.row].name, imgFrame: cell.picIV.frame))
                 
                 cell.brandCellDelegate = self
                 cell.tag = brandsArr[indexPath.row].id
@@ -419,7 +423,8 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
                 
                 cell.checkBox.isSelected = true
                 
-                cell.picIV.sd_setImage(with: URL(string: (brand?.image)!), placeholderImage: UIImage(named: "box_icon"))
+                cell.picIV.sd_setImage(with: URL(string: (brand?.image)!),
+                                       placeholderImage: UIImage.textToImage(drawText: (brand?.name)!, imgFrame: cell.picIV.frame))
                 
                 cell.checkBox.isUserInteractionEnabled = false
                 

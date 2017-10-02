@@ -18,7 +18,6 @@ class CategoryCVCell: UICollectionViewCell {
     
     let screenWidth = UIScreen.main.bounds.width - 40
     
-    
     weak var categoryCellDelegate : CategoryCellDelegate?
     
     override init(frame: CGRect) {
@@ -43,11 +42,11 @@ class CategoryCVCell: UICollectionViewCell {
         contentView.addSubview(greyView)
         
         
-        picIV.frame = CGRect(x: 40, y: 5, width: 40, height: 35)
+        picIV.frame = CGRect(x: 45, y: 5, width: 40, height: 35)
         picIV.contentMode = .scaleAspectFit
         picIV.layer.masksToBounds = true
         
-        titleLbl.frame = CGRect(x: picIV.frame.maxX, y: 0, width: screenWidth - picIV.frame.maxX, height: 40)
+        titleLbl.frame = CGRect(x: picIV.frame.maxX + 10, y: 0, width: screenWidth - picIV.frame.maxX, height: 40)
         titleLbl.textColor = UIColor.black
         
         contentView.addSubview(picIV)
