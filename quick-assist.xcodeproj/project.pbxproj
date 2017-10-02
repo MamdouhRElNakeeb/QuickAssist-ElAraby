@@ -97,8 +97,8 @@
 		332088BF1F708BDF0070BCA3 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				332088B91F6FE0C80070BCA3 /* Category.swift */,
 				332088BB1F6FE1AA0070BCA3 /* Brand.swift */,
+				332088B91F6FE0C80070BCA3 /* Category.swift */,
 				332088BD1F6FE7930070BCA3 /* Product.swift */,
 			);
 			name = Objects;

@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (4.5.0)
-  - expanding-collection (1.0.4)
   - libwebp (0.6.0):
     - libwebp/core (= 0.6.0)
     - libwebp/dec (= 0.6.0)
@@ -38,20 +37,18 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.3)
-  - expanding-collection (~> 1.0.3)
   - RealmSwift
   - SDWebImage/WebP (~> 3.8)
   - UICheckbox.Swift
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  expanding-collection: be78b5822d7382d3da02b52d52273f4661567a64
   libwebp: 1d5a07c2eb97f9c31bd5f154bb82efc0ea67c6a2
   Realm: f91fb43bd474c4f731a116ebf7392c75dd015920
   RealmSwift: 207f12a4a36b696c5183c60a1c06d70234a23e56
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   UICheckbox.Swift: 85715689206fac5bae38b308f19c2a3e00442c3b
 
-PODFILE CHECKSUM: ff149f4e704d481edd9c1a1cb95583eb2e3e142a
+PODFILE CHECKSUM: 9a4457da219aba729b4e9eaf30eeb0871bbf09eb
 
 COCOAPODS: 1.2.1

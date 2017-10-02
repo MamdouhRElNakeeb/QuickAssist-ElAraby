@@ -15,7 +15,7 @@ class BrandCVCell: UICollectionViewCell {
     let picIV = UIImageView()
     let checkBox = UICheckbox()
     
-    let screenWidth = UIScreen.main.bounds.width - 40
+    let itemWidth = (UIScreen.main.bounds.width - 40) / 2
     
     weak var brandCellDelegate : BrandCellDelegate?
     
@@ -27,7 +27,6 @@ class BrandCVCell: UICollectionViewCell {
         
         checkBox.frame = CGRect(x: 10, y: 10, width: 20, height: 20)
         checkBox.backgroundColor = UIColor.white
-        //checkBox.isSelected = false
         
         checkBox.onSelectStateChanged = { (checkbox, selected) in
             
@@ -35,19 +34,12 @@ class BrandCVCell: UICollectionViewCell {
             
         }
         
-        //let scView = SuccessCheck(frame: CGRect(x: 10, y: 10, width: 20, height: 20))
-        
         greyView.addSubview(checkBox)
         
         // Add to the parent view
         contentView.addSubview(greyView)
         
-        // Animate the tick process
-        /*scView.initWithTime(withDuration: 0, bgCcolor: .white, colorOfStroke: .blue, widthOfTick: 2) {
-            //do additional work after completion
-        }*/
-        
-        picIV.frame = CGRect(x: 40, y: 5, width: (screenWidth / 2) - 40, height: 35)
+        picIV.frame = CGRect(x: 40, y: 5, width: itemWidth - 40, height: 35)
         picIV.contentMode = .scaleAspectFit
         picIV.layer.masksToBounds = true
         

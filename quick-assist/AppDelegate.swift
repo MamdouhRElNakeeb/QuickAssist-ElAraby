@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let categoriesUrl = "https://www.elarabygroup.com/portal_test/en/api/index/categories"
     let productsUrl = "https://www.elarabygroup.com/portal_test/en/api/index/products"
     
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -34,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Support for background fetch
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(syncDB), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 3600, target: self, selector: #selector(syncDB), userInfo: nil, repeats: true)
 
     }
     
@@ -47,11 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let seconds = calendar.component(.second, from: date)
         print("hours = \(hour):\(minutes):\(seconds)")
         
-        if hour == 3 {
+        if hour == 4 {
             
-            loadBrands()
-            loadCategories()
             loadProducts()
+            loadCategories()
+            loadBrands()
         }
 
     }
@@ -81,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         brand.name = (brandJSONObj as AnyObject).value(forKey: "name") as! String
                         brand.image = (brandJSONObj as AnyObject).value(forKey: "image") as! String
                         
+                        //brand.categories.append(self.realm.objects(Category.self).filter("id == ").first!)
                         
                         try! self.realm.write {
                             
@@ -129,7 +131,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         for brandObj in brandsJSONArr{
                             
                             brands.append(brandObj as! String)
-                            
+                            //category.owners = self.realm.objects(Brand.self).filter("id == " + (brandObj as! String)).first
+
                         }
                         
                         category.brands = brands.joined(separator: ",")
@@ -174,17 +177,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         let product = Product()
                         product.id = Int((productJSONObj as AnyObject).value(forKey: "id") as! String)!
                         product.name = (productJSONObj as AnyObject).value(forKey: "name") as! String
-                        product.sku = (productJSONObj as AnyObject).value(forKey: "sku") as! String
                         
-                        product.brand = Int((productJSONObj as AnyObject).value(forKey: "brand") as! String)!
+                        if let sku = (productJSONObj as! NSDictionary)["sku"] as? String{
+                            //product.sku = (productJSONObj as AnyObject).value(forKey: "sku") as! String
+                            product.sku = sku
+                        }
+                        else{
+                            product.sku = ""
+                        }
+                        
+                        if let brand = (productJSONObj as! NSDictionary)["brand"] as? String{
+                            product.brand = Int(brand)!
+                        }
+                        else{
+                            product.brand = 0
+                        }
+                        
                         product.image = (productJSONObj as AnyObject).value(forKey: "image") as! String
                         product.url = (productJSONObj as AnyObject).value(forKey: "url") as! String
                         
-                        let priceStr = (productJSONObj as AnyObject).value(forKey: "price") as! String
+                        if let priceStr = (productJSONObj as! NSDictionary)["price"] as? String{
                         
-                        let index = priceStr.index(priceStr.startIndex, offsetBy: priceStr.indexOf(string: "."))
+                            //let priceStr = (productJSONObj as AnyObject).value(forKey: "price") as! String
+                            
+                            let index = priceStr.index(priceStr.startIndex, offsetBy: priceStr.indexOf(string: "."))
+                            
+                            product.price = Int(priceStr.substring(to: index))!
+                            
+                        }
+                        else{
+                            product.price = 0
+                        }
                         
-                        product.price = Int(priceStr.substring(to: index))!
+                       
                         
                         product.desc = (productJSONObj as AnyObject).value(forKey: "description") as! String
                         

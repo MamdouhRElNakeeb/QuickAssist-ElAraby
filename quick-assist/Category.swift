@@ -14,5 +14,5 @@ class Category: Object {
     dynamic var name = ""
     dynamic var brands = ""
     dynamic var image = ""
-   
+
 }

@@ -18,6 +18,9 @@ class CategoryCVCell: UICollectionViewCell {
     
     let screenWidth = UIScreen.main.bounds.width - 40
     
+    
+    weak var categoryCellDelegate : CategoryCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -27,6 +30,12 @@ class CategoryCVCell: UICollectionViewCell {
         checkBox.frame = CGRect(x: 10, y: 10, width: 20, height: 20)
         checkBox.backgroundColor = UIColor.white
         checkBox.isSelected = false
+        
+        checkBox.onSelectStateChanged = { (checkbox, selected) in
+            
+            self.categoryCellDelegate?.categoryCheckBoxOnStateChanged(tag: self.tag, state: self.checkBox.isSelected)
+            
+        }
         
         greyView.addSubview(checkBox)
         
@@ -42,6 +51,7 @@ class CategoryCVCell: UICollectionViewCell {
         titleLbl.textColor = UIColor.black
         
         contentView.addSubview(picIV)
+        contentView.addSubview(titleLbl)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,3 +59,8 @@ class CategoryCVCell: UICollectionViewCell {
     }
 
 }
+
+protocol CategoryCellDelegate : class {
+    func categoryCheckBoxOnStateChanged(tag: Int, state: Bool)
+}
+
