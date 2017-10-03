@@ -24,9 +24,16 @@ extension UIColor {
         
         return UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     }
+    
+    class func greyMidColor() -> UIColor {
+        
+        return UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+    }
 }
 
 extension String {
+    
+    // Get Index of specific char in a String
     func indexOf(string: String) -> Int {
         
         var index = Int()
@@ -42,6 +49,20 @@ extension String {
         
         return index
     }
+    
+    // Convert HTML to Attributed String
+    var html2AttributedString: NSAttributedString? {
+        do {
+            return try NSAttributedString(data: Data(utf8), options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            print("error:", error)
+            return nil
+        }
+    }
+    
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
 }
 
 extension UIImage{
@@ -50,7 +71,7 @@ extension UIImage{
         
         let image = UIImage(named: "")
         
-        let viewToRender = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height)) // here you can set the actual image width : 
+        let viewToRender = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         
         let imgView = UIImageView(frame: viewToRender.frame)
         
