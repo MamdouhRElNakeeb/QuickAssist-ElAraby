@@ -10,5 +10,6 @@ target 'quick-assist' do
   pod 'SDWebImage/WebP', '~>3.8'
   pod 'RealmSwift'
   pod 'UICheckbox.Swift'
+  pod 'DropDown'
 
 end

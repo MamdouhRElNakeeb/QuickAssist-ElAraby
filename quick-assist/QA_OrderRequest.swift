@@ -21,6 +21,8 @@ class QA_OrderRequest: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        quanity = [Int] (repeating: 1, count: products.count)
+        
         initOrdersTV()
     }
     
@@ -68,6 +70,14 @@ extension QA_OrderRequest: UITableViewDelegate, UITableViewDataSource, OrderCell
         
         cell.orderRemoveOnClick = self
         cell.tag = indexPath.row
+        cell.quantityBtn.setTitle("\(quanity[indexPath.row])", for: .normal)
+        
+        cell.quantityDD.selectionAction = { [unowned self] (index, item) in
+            
+            cell.quantityBtn.setTitle(item, for: .normal)
+            self.quanity[indexPath.row] = Int(item)!
+            
+        }
         
         return cell
     }
