@@ -397,6 +397,31 @@ class QA_ProductsVC: UIViewController {
     
     @IBAction func productSelectDoneOnClick(_ sender: Any) {
         
+        if productsSelArr.isEmpty {
+            let alert = UIAlertController(title: "Alert", message: "Please select one product at least", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "orderRequest") as! QA_OrderRequest
+        
+        var productsFilterStr = "("
+        for i in (0..<productsSelArr.count){
+            productsFilterStr += "id == " + "\(productsSelArr[i])"
+            if (i != productsSelArr.count - 1){
+                productsFilterStr += " OR "
+            }
+            else{
+                productsFilterStr += ")"
+            }
+        }
+        
+        newViewController.products = Array(realm.objects(Product.self).filter(productsFilterStr))
+        self.navigationController?.pushViewController(newViewController, animated: true)
+
     }
     
     
