@@ -29,6 +29,11 @@ extension UIColor {
         
         return UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
     }
+    
+    class func blue() -> UIColor {
+        
+        return UIColor(red: 48/255, green: 73/255, blue: 153/255, alpha: 1)
+    }
 }
 
 extension String {
@@ -63,6 +68,7 @@ extension String {
     var html2String: String {
         return html2AttributedString?.string ?? ""
     }
+    
 }
 
 extension UIImage{

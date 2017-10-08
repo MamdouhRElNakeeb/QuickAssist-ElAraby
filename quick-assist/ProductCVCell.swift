@@ -19,7 +19,7 @@ class ProductCVCell: UICollectionViewCell {
     let infoBtn = UIButton()
     
     let detailsGreyView = UIView()
-    let detailsLbl = UILabel()
+    let detailsLbl = UITextView()
     var infoExpanded = false
     
     let shareBtn = UIButton()
@@ -82,14 +82,15 @@ class ProductCVCell: UICollectionViewCell {
         
         let detailsHeader = UILabel(frame: CGRect(x: 10, y: 10, width: detailsGreyView.frame.width - 20, height: 10))
         detailsHeader.textColor = UIColor.black
-        detailsHeader.font = UIFont(name: detailsLbl.font.fontName, size: 12)
+        detailsHeader.font = UIFont(name: detailsHeader.font.fontName, size: 12)
         detailsHeader.font = UIFont.boldSystemFont(ofSize: detailsHeader.font.pointSize)
         detailsHeader.text = "Details"
         
         detailsLbl.frame = CGRect(x: 10, y: detailsHeader.frame.maxY, width: detailsGreyView.frame.width - 20, height: 0)
         detailsLbl.textColor = UIColor.black
-        detailsLbl.font = UIFont(name: detailsLbl.font.fontName, size: 12)
-        detailsLbl.numberOfLines = 8
+        //detailsLbl.font = UIFont(name: (detailsLbl.font?.fontName)!, size: 12)
+        detailsLbl.backgroundColor = UIColor.clear
+        //detailsLbl.numberOfLines = 8
         
         detailsGreyView.addSubview(detailsHeader)
         detailsGreyView.addSubview(detailsLbl)
