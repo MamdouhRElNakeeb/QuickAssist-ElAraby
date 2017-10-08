@@ -115,3 +115,72 @@ extension UIImage{
     }
     
 }
+
+extension UIView {
+    
+    func addBorder(view: UIView, stroke: UIColor, fill: UIColor, radius: Int, width: CGFloat){
+        // Add border
+        let borderLayer = CAShapeLayer()
+        
+        let rectShape = CAShapeLayer()
+        rectShape.bounds = view.frame
+        rectShape.position = view.center
+        
+        rectShape.path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: [.bottomRight , .topLeft, .topRight, .bottomLeft], cornerRadii: CGSize(width: radius, height: radius)).cgPath
+        borderLayer.path = rectShape.path // Reuse the Bezier path
+        borderLayer.fillColor = fill.cgColor
+        borderLayer.strokeColor = stroke.cgColor
+        borderLayer.lineWidth = width
+        borderLayer.frame = view.bounds
+        view.layer.addSublayer(borderLayer)
+        view.layer.mask = rectShape
+        
+    }
+    
+    func removeBorder(view: UIView){
+        // remove border
+        view.layer.removeFromSuperlayer()
+    }
+    
+    func dropShadow() {
+        
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.4
+        self.layer.shadowOffset = CGSize(width: -1, height: 0)
+        self.layer.shadowRadius = 3
+        
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        self.layer.cornerRadius = 15
+        self.layer.masksToBounds = true
+    }
+    
+    func dropShadow2() {
+        
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.4
+        self.layer.shadowOffset = CGSize(width: -1, height: 0)
+        self.layer.shadowRadius = 9
+        
+        //self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        //self.layer.cornerRadius = 15
+        self.layer.masksToBounds = false
+    }
+    
+    
+    func outerGlow() {
+        
+        self.layer.shadowColor = UIColor(red: 252/255, green: 247/255, blue: 192/255, alpha: 1).cgColor
+        self.layer.shadowOpacity = 2
+        self.layer.shadowOffset = CGSize(width: -1, height: 0)
+        self.layer.shadowRadius = 5
+        
+        //self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        //self.layer.cornerRadius = 5
+        
+        self.layer.masksToBounds = false
+    }
+    
+}

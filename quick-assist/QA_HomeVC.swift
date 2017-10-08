@@ -26,7 +26,7 @@ class QA_HomeVC: UIViewController, UIGestureRecognizerDelegate {
 
     func openProducts(){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "products") as! QA_ProductsVC
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "productsHome") as! QA_ProductsHomeVC
         self.navigationController?.pushViewController(newViewController, animated: true)
 
     }

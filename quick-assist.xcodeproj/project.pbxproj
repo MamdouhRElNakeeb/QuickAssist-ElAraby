@@ -26,6 +26,11 @@
 		33BA49351F79CB9400DB8FD1 /* CategoryCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BA49341F79CB9400DB8FD1 /* CategoryCVCell.swift */; };
 		33BA49371F79CBA900DB8FD1 /* ProductCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BA49361F79CBA900DB8FD1 /* ProductCVCell.swift */; };
 		632032727DF5CE2730DA6393 /* Pods_quick_assist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FD482DAB3F14AE9FF5B7C9 /* Pods_quick_assist.framework */; };
+		8826D2DB1F8A316300E74C85 /* FollowUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8826D2DA1F8A316300E74C85 /* FollowUpCell.swift */; };
+		8826D2DD1F8A3FAD00E74C85 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8826D2DC1F8A3FAD00E74C85 /* City.swift */; };
+		882D9A971F8A6D93001B1F8A /* QA_ProductsFollowUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882D9A961F8A6D93001B1F8A /* QA_ProductsFollowUpVC.swift */; };
+		882D9A991F8A6DB3001B1F8A /* QA_SupportFollowUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882D9A981F8A6DB3001B1F8A /* QA_SupportFollowUpVC.swift */; };
+		882D9A9B1F8A7B4D001B1F8A /* QA_ProductsHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882D9A9A1F8A7B4D001B1F8A /* QA_ProductsHomeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +56,11 @@
 		33BA49361F79CBA900DB8FD1 /* ProductCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCVCell.swift; sourceTree = "<group>"; };
 		46FD482DAB3F14AE9FF5B7C9 /* Pods_quick_assist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_quick_assist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		591357959627ED990B1291DF /* Pods-quick-assist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quick-assist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-quick-assist/Pods-quick-assist.debug.xcconfig"; sourceTree = "<group>"; };
+		8826D2DA1F8A316300E74C85 /* FollowUpCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowUpCell.swift; sourceTree = "<group>"; };
+		8826D2DC1F8A3FAD00E74C85 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		882D9A961F8A6D93001B1F8A /* QA_ProductsFollowUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QA_ProductsFollowUpVC.swift; sourceTree = "<group>"; };
+		882D9A981F8A6DB3001B1F8A /* QA_SupportFollowUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QA_SupportFollowUpVC.swift; sourceTree = "<group>"; };
+		882D9A9A1F8A7B4D001B1F8A /* QA_ProductsHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QA_ProductsHomeVC.swift; sourceTree = "<group>"; };
 		92831D636D8EA2084224883E /* Pods-quick-assist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quick-assist.release.xcconfig"; path = "Pods/Target Support Files/Pods-quick-assist/Pods-quick-assist.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +117,7 @@
 				332088B91F6FE0C80070BCA3 /* Category.swift */,
 				332088BD1F6FE7930070BCA3 /* Product.swift */,
 				335F469A1F84FC0A002A78D8 /* Order.swift */,
+				8826D2DC1F8A3FAD00E74C85 /* City.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -124,9 +135,12 @@
 			isa = PBXGroup;
 			children = (
 				330D933C1F5EB667003CBE98 /* QA_HomeVC.swift */,
-				33B261E51F6F1B0600F7D0DC /* QA_SupportVC.swift */,
 				33B261E71F6F1B1300F7D0DC /* QA_ProductsVC.swift */,
 				335F469C1F84FF6F002A78D8 /* QA_OrderRequest.swift */,
+				882D9A961F8A6D93001B1F8A /* QA_ProductsFollowUpVC.swift */,
+				33B261E51F6F1B0600F7D0DC /* QA_SupportVC.swift */,
+				882D9A981F8A6DB3001B1F8A /* QA_SupportFollowUpVC.swift */,
+				882D9A9A1F8A7B4D001B1F8A /* QA_ProductsHomeVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -138,6 +152,7 @@
 				33BA49341F79CB9400DB8FD1 /* CategoryCVCell.swift */,
 				33BA49361F79CBA900DB8FD1 /* ProductCVCell.swift */,
 				335F469E1F851C24002A78D8 /* OrderTVCell.swift */,
+				8826D2DA1F8A316300E74C85 /* FollowUpCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -256,9 +271,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-quick-assist/Pods-quick-assist-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/UICheckbox.Swift/UICheckbox_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICheckbox_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -271,13 +301,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-quick-assist-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -292,14 +325,19 @@
 				330D933D1F5EB667003CBE98 /* QA_HomeVC.swift in Sources */,
 				332088BE1F6FE7930070BCA3 /* Product.swift in Sources */,
 				33B261EA1F6F1DA500F7D0DC /* BrandCVCell.swift in Sources */,
+				8826D2DB1F8A316300E74C85 /* FollowUpCell.swift in Sources */,
+				882D9A971F8A6D93001B1F8A /* QA_ProductsFollowUpVC.swift in Sources */,
+				882D9A991F8A6DB3001B1F8A /* QA_SupportFollowUpVC.swift in Sources */,
 				33B261E81F6F1B1300F7D0DC /* QA_ProductsVC.swift in Sources */,
 				33BA49311F79A1ED00DB8FD1 /* Extensions.swift in Sources */,
 				33B261E21F6F11AB00F7D0DC /* SuccessCheck.swift in Sources */,
+				8826D2DD1F8A3FAD00E74C85 /* City.swift in Sources */,
 				335F469F1F851C24002A78D8 /* OrderTVCell.swift in Sources */,
 				332088BC1F6FE1AA0070BCA3 /* Brand.swift in Sources */,
 				330D933B1F5EB667003CBE98 /* AppDelegate.swift in Sources */,
 				33BA49371F79CBA900DB8FD1 /* ProductCVCell.swift in Sources */,
 				335F469B1F84FC0A002A78D8 /* Order.swift in Sources */,
+				882D9A9B1F8A7B4D001B1F8A /* QA_ProductsHomeVC.swift in Sources */,
 				332088BA1F6FE0C80070BCA3 /* Category.swift in Sources */,
 				33BA49351F79CB9400DB8FD1 /* CategoryCVCell.swift in Sources */,
 			);

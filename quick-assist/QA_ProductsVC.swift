@@ -21,7 +21,7 @@ class QA_ProductsVC: UIViewController {
     @IBOutlet weak var brandsDoneBtn: UIButton!
     @IBOutlet weak var categoriesDoneBtn: UIButton!
     @IBOutlet weak var productsDoneBtn: UIButton!
-    @IBOutlet weak var newProductBtn: UIButton!
+    //@IBOutlet weak var newProductBtn: UIButton!
     
     var spinner = UIActivityIndicatorView()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -84,7 +84,7 @@ class QA_ProductsVC: UIViewController {
         
         
         brandsV.frame = CGRect(x: 10
-            , y: newProductBtn.frame.maxY + 10, width: self.view.frame.width - 20, height: view.frame.maxY - newProductBtn.frame.maxY - 20)
+            , y: self.navigationController!.navigationBar.frame.height + 60, width: self.view.frame.width - 20, height: view.frame.maxY - view.frame.minY - 20)
         
         brandsCV.frame = CGRect(x: 10
             , y: 25, width: self.view.frame.width - 30, height: CGFloat(ceil(Double(brandsArr.count) / 2)) * 40 + 25)
@@ -232,7 +232,7 @@ class QA_ProductsVC: UIViewController {
         
         if brandsElapsed {
     
-            var filterStr = ""
+            var filterStr = "parent_id == 'null' AND "
             for i in (0..<brandsSelArr.count){
                 filterStr += "brands CONTAINS '" + "\(brandsSelArr[i])" + "'"
                 if (i != brandsSelArr.count - 1){

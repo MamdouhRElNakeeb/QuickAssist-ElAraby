@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import DropDown
 
 class QA_OrderRequest: UIViewController {
 
@@ -19,15 +20,19 @@ class QA_OrderRequest: UIViewController {
     var requestNowBtn = UIButton()
     var nameTF = UITextField()
     var phoneTF = UITextField()
-    var cityTF = UITextField()
+    var cityBtn = UIButton()
+    var cityDD = DropDown()
     var addressTF = UITextField()
     var userDataSubmitBtn = UIButton()
+    
+    var spinner = UIActivityIndicatorView()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     var ordersTV = UITableView()
     var products = Array <Product>()
     var quanity = Array <Int>()
     
-    let submitOrderUrl = "https://www.elarabygroup.com/portal_test/en/api/index/submitOrder"
+    let submitOrderUrl = "http://www.elarabyfamily.com:8080/api/CreateSalesOrder"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,15 +81,16 @@ class QA_OrderRequest: UIViewController {
         totalPriceView.addSubview(totalPriceLbl)
         
         // Request Now Button
-        requestNowBtn.frame = CGRect(x: totalPriceView.frame.minX, y: totalPriceView.frame.maxY + 10, width: totalPriceView.frame.width, height: 30)
+        requestNowBtn.frame = CGRect(x: totalPriceView.frame.minX, y: totalPriceView.frame.maxY + 10, width: totalPriceView.frame.width, height: 0)
         requestNowBtn.setTitle("Request Now", for: .normal)
         requestNowBtn.setTitleColor(UIColor.white, for: .normal)
         requestNowBtn.backgroundColor = UIColor.blue()
         requestNowBtn.titleLabel?.font = UIFont(name: (requestNowBtn.titleLabel?.font.fontName)!, size: 14)
         requestNowBtn.addTarget(self, action: #selector(requestNowOnClick), for: .touchUpInside)
+        requestNowBtn.isHidden = true
         
         // User Data View
-        let userDataV = UIView(frame: CGRect(x: requestNowBtn.frame.minX, y: requestNowBtn.frame.maxY + 10, width: requestNowBtn.frame.width, height: 186))
+        let userDataV = UIView(frame: CGRect(x: requestNowBtn.frame.minX, y: requestNowBtn.frame.maxY, width: requestNowBtn.frame.width, height: 186))
         userDataV.backgroundColor = UIColor.white
         
         nameTF.frame = CGRect(x: 10, y: 20, width: userDataV.frame.width - 20, height: 30)
@@ -98,14 +104,31 @@ class QA_OrderRequest: UIViewController {
         phoneTF.placeholder = "Tele"
         phoneTF.borderStyle = .roundedRect
         phoneTF.clearButtonMode = .whileEditing
+        phoneTF.keyboardType = .phonePad
         
-        cityTF.frame = CGRect(x: 10, y: phoneTF.frame.maxY + 8, width: userDataV.frame.width - 20, height: 30)
-        cityTF.placeholder = "City"
-        cityTF.font = nameTF.font
-        cityTF.borderStyle = .roundedRect
-        cityTF.clearButtonMode = .whileEditing
+        cityBtn.frame = CGRect(x: 10, y: phoneTF.frame.maxY + 8, width: userDataV.frame.width - 20, height: 30)
+        cityBtn.setTitle("  City", for: .normal)
+        cityBtn.titleLabel?.font = nameTF.font
+        cityBtn.setTitleColor(UIColor.lightGray, for: .normal)
+        cityBtn.contentHorizontalAlignment = .left
+        cityBtn.backgroundColor = UIColor.clear
+        cityBtn.addBorder(view: cityBtn, stroke: UIColor.greyMidColor(), fill: UIColor.clear, radius: 5, width: 2)
+        cityBtn.addTarget(self, action: #selector(showCityDropDown), for: .touchUpInside)
+        //cityBtn.isEnabled = false
         
-        addressTF.frame = CGRect(x: 10, y: cityTF.frame.maxY + 8, width: userDataV.frame.width - 20, height: 30)
+        cityDD.frame = cityBtn.frame
+        cityDD.anchorView = cityBtn
+        cityDD.dataSource = ["Cairo", "Alexandria", "Giza", "Suez", "Portsaid"]
+        cityDD.direction = .any
+        cityDD.dismissMode = .onTap
+        
+        cityDD.selectionAction = { [unowned self] (index, item) in
+            self.cityBtn.setTitle("  " + item, for: .normal)
+            self.cityBtn.setTitleColor(UIColor.black, for: .normal)
+        }
+
+        
+        addressTF.frame = CGRect(x: 10, y: cityBtn.frame.maxY + 8, width: userDataV.frame.width - 20, height: 30)
         addressTF.placeholder = "Address"
         addressTF.font = nameTF.font
         addressTF.borderStyle = .roundedRect
@@ -113,7 +136,8 @@ class QA_OrderRequest: UIViewController {
         
         userDataV.addSubview(nameTF)
         userDataV.addSubview(phoneTF)
-        userDataV.addSubview(cityTF)
+        userDataV.addSubview(cityBtn)
+        userDataV.addSubview(cityDD)
         userDataV.addSubview(addressTF)
         
         
@@ -132,6 +156,13 @@ class QA_OrderRequest: UIViewController {
         self.view.addSubview(userDataV)
         self.view.addSubview(userDataSubmitBtn)
         
+        
+        initSpinner()
+        
+    }
+    
+    func showCityDropDown (){
+        cityDD.show()
     }
     
     func initOrdersTV(){
@@ -156,6 +187,37 @@ class QA_OrderRequest: UIViewController {
         
     }
     
+    func initSpinner(){
+        spinner.activityIndicatorViewStyle = .gray
+        spinner.center = self.view.center
+        
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        spinner.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        
+        let strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+        strLabel.text = "Loading"
+        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightMedium)
+        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
+        
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        
+        effectView.addSubview(spinner)
+        effectView.addSubview(strLabel)
+        
+    }
+    
+    func dismissSpinner(){
+        spinner.stopAnimating()
+        effectView.removeFromSuperview()
+    }
+    
+    func displaySpinner(){
+        spinner.startAnimating()
+        self.view.addSubview(effectView)
+    }
+    
     func calcPrice() {
         var totalPrice = 0
         
@@ -168,9 +230,11 @@ class QA_OrderRequest: UIViewController {
     
     func submitOrder (userInfo: String, products: String){
         
+        displaySpinner()
         let parameters: Parameters = [
         "userInfo": userInfo,
-        "products": products]
+        "products": products,
+        "session_token": "79998c2a-7fa7-4776-a6ad-6620ebacc9bb"]
         
         print(parameters)
         
@@ -179,7 +243,14 @@ class QA_OrderRequest: UIViewController {
                 
                 response in
                 
+                self.dismissSpinner()
+                
                 print(response)
+                
+                if let resault = response.result.value {
+                    
+                    print(resault)
+                }
                 
                 
         }
@@ -214,7 +285,7 @@ class QA_OrderRequest: UIViewController {
     
     func submitOrderBtnOnClick (){
         
-        let userInfo = userDataToJson(name: nameTF.text!, mobile: phoneTF.text!, city: cityTF.text!, address: addressTF.text!)
+        let userInfo = userDataToJson(name: nameTF.text!, mobile: phoneTF.text!, city: (cityBtn.titleLabel?.text!)!, address: addressTF.text!)
         let products = orderToJson()
         var userInfoStr = ""
         var productsStr = ""

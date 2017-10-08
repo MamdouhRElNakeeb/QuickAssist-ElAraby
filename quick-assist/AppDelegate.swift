@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let realm = try! Realm()
 
-    let brandsUrl = "https://www.elarabygroup.com/portal_test/en/api/index/brands"
-    let categoriesUrl = "https://www.elarabygroup.com/portal_test/en/api/index/categories"
-    let productsUrl = "https://www.elarabygroup.com/portal_test/en/api/index/products"
+    let brandsUrl = "https://www.elarabygroup.com/en/api/index/brands"
+    let categoriesUrl = "https://www.elarabygroup.com/en/api/index/categories"
+    let productsUrl = "https://www.elarabygroup.com/en/api/index/products"
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
-        
+        //syncDB()
         return true
     }
 
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let seconds = calendar.component(.second, from: date)
         print("hours = \(hour):\(minutes):\(seconds)")
         
-        if hour == 4 {
+        if hour == 13 {
             
             loadProducts()
             loadCategories()
@@ -134,6 +134,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             //category.owners = self.realm.objects(Brand.self).filter("id == " + (brandObj as! String)).first
 
                         }
+                        
+                        if let parent_id = (categoryJSONObj as! NSDictionary)["parent_id"] as? String{
+                            category.parent_id = parent_id
+                        }
+                        else{
+                            category.parent_id = "null"
+                        }
+
                         
                         category.brands = brands.joined(separator: ",")
                         
