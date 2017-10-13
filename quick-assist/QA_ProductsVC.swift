@@ -31,7 +31,7 @@ class QA_ProductsVC: UIViewController {
     let productsUrl = "https://www.elarabygroup.com/portal_test/en/api/index/products"
     
     var brandsArr = Array<Brand>()
-    var categoriesArr = Array<Category>()
+    var subCategoriesArr = Array<Array<Category>>()
     var productsArr = Array<Product>()
     
     
@@ -42,6 +42,7 @@ class QA_ProductsVC: UIViewController {
     var categoriesSelArr = Array<Int>()
     var productsSelArr = Array<Int>()
     
+    var categoriesElapsedArr = Array<Int>()
     var productsElapsedArr = Array<Int>()
     
     var brandsElapsed = true
@@ -84,7 +85,7 @@ class QA_ProductsVC: UIViewController {
         
         
         brandsV.frame = CGRect(x: 10
-            , y: self.navigationController!.navigationBar.frame.height + 60, width: self.view.frame.width - 20, height: view.frame.maxY - view.frame.minY - 20)
+            , y: self.navigationController!.navigationBar.bounds.maxY + 60, width: self.view.frame.width - 20, height: self.view.frame.maxY - self.navigationController!.navigationBar.bounds.maxY - 80)
         
         brandsCV.frame = CGRect(x: 10
             , y: 25, width: self.view.frame.width - 30, height: CGFloat(ceil(Double(brandsArr.count) / 2)) * 40 + 25)
@@ -107,7 +108,7 @@ class QA_ProductsVC: UIViewController {
         categoriesCV.register(CategoryCVCell.self, forCellWithReuseIdentifier: "categoryCell")
         
         categoryV.frame = CGRect(x: 10
-            , y: brandsV.frame.maxY + 10, width: self.view.frame.width - 20, height: 25)
+            , y: brandsV.frame.maxY + 10, width: self.view.frame.width - 20, height: 0)
         
         categoriesCV.frame = CGRect(x: 10
             , y: categoryV.frame.minY + 25, width: self.view.frame.width - 30, height: 0)
@@ -129,9 +130,11 @@ class QA_ProductsVC: UIViewController {
         productsCV.setCollectionViewLayout(flowLayout, animated: true)
         productsCV.register(ProductCVCell.self, forCellWithReuseIdentifier: "productCell")
         
-        productsV.frame = CGRect(x: 10, y: categoryV.frame.maxY + 10, width: self.view.frame.width - 20, height: 25)
+        productsV.frame = CGRect(x: 10, y: categoryV.frame.maxY + 10, width: self.view.frame.width - 20, height: 0)
         
         productsCV.frame = CGRect(x: 10, y: productsV.frame.minY + 25, width: self.view.frame.width - 30, height: 0)
+        
+        productsCV.layer.masksToBounds = true
     }
     
     func initSpinner(){
@@ -232,13 +235,17 @@ class QA_ProductsVC: UIViewController {
         
         if brandsElapsed {
     
-            var filterStr = "parent_id == 'null' AND "
+            var filterStr = "parent_id == 'null' AND ("
             for i in (0..<brandsSelArr.count){
                 filterStr += "brands CONTAINS '" + "\(brandsSelArr[i])" + "'"
                 if (i != brandsSelArr.count - 1){
                     filterStr += " OR "
                 }
+                else {
+                    filterStr += ")"
+                }
             }
+            
             
             let categoriesRealm = realm.objects(Category.self).filter(filterStr)
             print(filterStr)
@@ -251,8 +258,18 @@ class QA_ProductsVC: UIViewController {
                 return
             }
             
-            print(categoriesRealm)
+            //print(categoriesRealm)
             categoriesFilteredArr = Array(categoriesRealm)
+            
+            // SubCategories Array
+            subCategoriesArr.removeAll()
+            for i in (0..<categoriesFilteredArr.count){
+               
+                filterStr = "parent_id == '\(categoriesFilteredArr[i].id)'"
+                
+                subCategoriesArr.append(Array(realm.objects(Category.self).filter(filterStr)))
+            }
+            
             
             brandsElapsed = false
             categoriesElapsed = true
@@ -349,7 +366,7 @@ class QA_ProductsVC: UIViewController {
                 return
             }
             
-            print(productsRealm)
+            //print(productsRealm)
             productsFilteredArr = Array(productsRealm)
             
             brandsElapsed = false
@@ -427,7 +444,7 @@ class QA_ProductsVC: UIViewController {
     
 }
 
-extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, BrandCellDelegate, CategoryCellDelegate, ProductCellDelegate, UICollectionViewDelegateFlowLayout {
+extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -460,8 +477,15 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
         }
         else if collectionView == self.categoriesCV {
             
-            let itemSize = self.view.frame.width - 25
-            return CGSize(width: itemSize, height: 40)
+            if categoriesElapsedArr.contains(where: {$0 == categoriesFilteredArr[indexPath.row].id}){
+                
+                return CGSize(width: self.view.frame.width - 40, height: 200)
+            }
+            else{
+                
+                return CGSize(width: self.view.frame.width - 40, height: 40)
+            }
+            
         }
         else {
             
@@ -542,6 +566,46 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
             cell.checkBox.isEnabled = true
             cell.checkBox.isUserInteractionEnabled = true
             
+            
+            
+            //print(subCategoriesRealm)
+            cell.subCategoriesArr = subCategoriesArr[indexPath.row]
+            
+            // Check Elapsed Categories
+            if categoriesElapsedArr.contains(where: {$0 == categoriesFilteredArr[indexPath.row].id}){
+                
+                cell.subCatExpanded = true
+                
+                cell.subsGreyView.isHidden = false
+                var cellHeight: CGFloat = 0
+                if subCategoriesArr.count >= 3 {
+                    cellHeight = 160
+                }
+                else {
+                    cellHeight = CGFloat((subCategoriesArr.count + 1) * 40)
+                }
+                cell.subsGreyView.frame = CGRect(x: 10, y: cell.picIV.frame.maxY, width: cell.screenWidth, height: cellHeight)
+                
+                cell.subCategoriesCV.frame = CGRect(x: 0, y: 0, width: cell.subsGreyView.frame.width, height: cellHeight)
+                cell.subCategoriesCV.reloadData()
+                
+                cell.subBtn.setTitle("Sub ⌄", for: .normal)
+                
+            }
+            else{
+                
+                cell.subCatExpanded = false
+                
+                cell.subsGreyView.isHidden = true
+                cell.subsGreyView.frame = CGRect(x: 10, y: cell.picIV.frame.maxY, width: cell.screenWidth, height: 0)
+                
+                cell.subCategoriesCV.frame = CGRect(x: 0, y: cell.subsGreyView.frame.minY + 10, width: cell.subsGreyView.frame.width - 20, height: 0)
+                
+                cell.subBtn.setTitle("Sub <", for: .normal)
+                
+            }
+            
+            // Check Selected Categories
             if categoriesSelArr.contains(where: {$0 == categoriesFilteredArr[indexPath.row].id}){
                 cell.checkBox.isSelected = true
             }
@@ -550,6 +614,7 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
             }
             
             return cell
+            
         case productsCV:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "productCell", for: indexPath) as! ProductCVCell
             
@@ -592,7 +657,6 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
                 cell.checkBox.isSelected = false
             }
             
-
             return cell
         default:
             return UICollectionViewCell()
@@ -603,6 +667,10 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
+}
+
+extension QA_ProductsVC: BrandCellDelegate, CategoryCellDelegate, ProductCellDelegate {
     
     func brandCheckBoxOnStateChanged(tag: Int, state: Bool) {
         
@@ -630,6 +698,25 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
         
     }
     
+    
+    
+    func subCategoriesExpanded(tag: Int, state: Bool) {
+        if categoriesElapsedArr.contains(where: {$0 == tag}) && !state && categoriesElapsed{
+            // it exists
+            categoriesElapsedArr.remove(at: categoriesElapsedArr.index(of: tag)!)
+        }
+        else if !categoriesElapsedArr.contains(where: {$0 == tag}) && state && categoriesElapsed{
+            //item could not be found
+            categoriesElapsedArr.append(tag)
+        }
+        
+        self.categoriesCV.reloadData()
+        print("SubCategories Elapsed Arr")
+        print(categoriesElapsedArr)
+        print("expandedCat: parent_id == '\(tag)' \n \(realm.objects(Category.self).filter("parent_id == '\(tag)'"))")
+    }
+    
+    
     func productCheckBoxOnStateChanged(tag: Int, state: Bool) {
         
         if productsSelArr.contains(where: {$0 == tag}) && !state && productsElapsed{
@@ -655,8 +742,8 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
         }
         
         self.productsCV.reloadData()
-        print("Products Elapsed Arr")
-        print(productsElapsedArr)
+        //print("Products Elapsed Arr")
+        //print(productsElapsedArr)
     }
     
     func productShare (tag: Int) {
@@ -669,4 +756,6 @@ extension QA_ProductsVC: UICollectionViewDelegate, UICollectionViewDataSource, B
         self.present(vc, animated: true, completion: nil)
         
     }
+    
+    
 }

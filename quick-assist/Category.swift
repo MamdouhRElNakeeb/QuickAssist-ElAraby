@@ -15,5 +15,10 @@ class Category: Object {
     dynamic var brands = ""
     dynamic var image = ""
     dynamic var parent_id = ""
+    
+    dynamic var subCategories = ""
 
+    override static func ignoredProperties() -> [String] {
+        return ["subCategories"]
+    }
 }
