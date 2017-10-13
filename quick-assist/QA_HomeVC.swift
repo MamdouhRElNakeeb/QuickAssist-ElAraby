@@ -20,6 +20,10 @@ class QA_HomeVC: UIViewController, UIGestureRecognizerDelegate {
         let productsTap = UITapGestureRecognizer(target: self, action: #selector(openProducts))
         productsTap.delegate = self
         productsV.addGestureRecognizer(productsTap)
+        
+        let supportTap = UITapGestureRecognizer(target: self, action: #selector(openSupport))
+        supportTap.delegate = self
+        supportV.addGestureRecognizer(supportTap)
 
         
     }
@@ -33,7 +37,7 @@ class QA_HomeVC: UIViewController, UIGestureRecognizerDelegate {
  
     func openSupport(){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "support") as! QA_SupportVC
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "supportHome") as! QA_SupportHomeVC
         self.navigationController?.pushViewController(newViewController, animated: true)
 
     }

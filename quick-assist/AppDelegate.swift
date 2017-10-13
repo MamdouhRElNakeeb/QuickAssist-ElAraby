@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
-        //syncDB()
+        //getData()
         return true
     }
 
@@ -48,13 +48,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let seconds = calendar.component(.second, from: date)
         print("hours = \(hour):\(minutes):\(seconds)")
         
-        if hour == 13 {
+        if hour == 23 {
+        
+            getData()
             
-            loadProducts()
-            loadCategories()
-            loadBrands()
         }
 
+    }
+    
+    func getData(){
+        
+        loadProducts()
+        loadCategories()
+        loadBrands()
     }
     
     func loadBrands(){
