@@ -236,9 +236,9 @@ class QA_OrderRequest: UIViewController {
         "products": products,
         "session_token": "79998c2a-7fa7-4776-a6ad-6620ebacc9bb"]
         
-        print(parameters)
+        print("params \(parameters)")
         
-        Alamofire.request(submitOrderUrl, method: .post, parameters: parameters)
+        Alamofire.request(submitOrderUrl, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON{
                 
                 response in
@@ -269,7 +269,7 @@ class QA_OrderRequest: UIViewController {
         var productsStr = ""
         
         if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted) {
-            userInfoStr = String(bytes: data, encoding: .utf8)!
+            userInfoStr = String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))! //String(bytes: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
             print(userInfoStr)
         }
         
